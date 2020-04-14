@@ -1,0 +1,64 @@
+DROP DATABASE IF EXISTS LibraryManageSystem;
+CREATE DATABASE LibraryManageSystem;
+USE LibraryManageSystem;
+
+CREATE TABLE SysManager
+(
+	ManagerID VARCHAR(20) PRIMARY KEY,
+	ManagerPWD VARCHAR(10) NOT NULL
+);
+
+INSERT INTO SysManager VALUES("admin","12345");
+CREATE TABLE ReaderType
+(
+	ReaderTypeData VARCHAR(10) PRIMARY KEY,
+	BookDay INT UNSIGNED NOT NULL,
+	BookNum INT UNSIGNED NOT NULL,
+	OneDayFine DECIMAL(5,2) NOT NULL
+);
+CREATE TABLE ReaderInfo
+(
+	ReaderID VARCHAR(10) PRIMARY KEY,
+	ReaderPWD VARCHAR(10) NOT NULL,
+	ReaderName VARCHAR(40) NOT NULL,
+	ReaderGender VARCHAR(5) NOT NULL,
+	ReaderTypeData VARCHAR(10) NOT NULL,
+	ReaderCompany VARCHAR(20) NOT NULL, 
+	ReaderStartDay DATE NOT NULL,
+	ReaderEndDay DATE NOT NULL,
+	ReaderPhone VARCHAR(20) NOT NULL,
+	CONSTRAINT Fk_ReaderInfo_ReaderType FOREIGN KEY(ReaderTypeData) REFERENCES ReaderType(ReaderTypeData)
+	
+);
+CREATE TABLE BookInfo
+(
+	ISBN VARCHAR(20) PRIMARY KEY,
+	BookName VARCHAR(30) NOT NULL,
+	BookAuthor VARCHAR(50) NOT NULL,
+	BookTranslator VARCHAR(50),
+	BookPublisher VARCHAR(40) NOT NULL,
+	PublishDate DATE NOT NULL,
+	BookPage INT UNSIGNED NOT NULL,
+	Bookprice DECIMAL(6,2) NOT NULL
+	
+);
+CREATE TABLE CollectionBookInfo
+(
+	BookBarCode	VARCHAR(13) PRIMARY KEY,
+	ISBN VARCHAR(19) NOT NULL,
+	STATUS VARCHAR(5) NOT NULL,
+	CONSTRAINT Fk_CollectionBookInfo_BookInfo FOREIGN KEY(ISBN) REFERENCES BookInfo(ISBN)
+);
+CREATE TABLE BorrowingBookInfo
+(
+	BorrowID BIGINT AUTO_INCREMENT PRIMARY KEY,
+	BookBarCode VARCHAR(13) NOT NULL,
+	ReaderID VARCHAR(10) NOT NULL,
+	BorrowDate DATE NOT NULL,
+	DueDate DATE NOT NULL,
+	ReturnDate DATE,
+	OverDueDate INT UNSIGNED,
+	BookFine DECIMAL(5,2),
+	CONSTRAINT Fk_BorrowingBookInfo_CollectionBookInfo FOREIGN KEY(BookBarCode) REFERENCES CollectionBookInfo(BookBarCode),
+	CONSTRAINT Fk_BorrowingBookInfo_ReaderInfo FOREIGN KEY(ReaderID) REFERENCES ReaderInfo(ReaderID)
+);

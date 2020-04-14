@@ -1,0 +1,13 @@
+SELECT ReaderName,ReaderGender,ReaderCompany FROM ReaderInfo;
+SELECT * FROM BookInfo WHERE BookPrice>30 ;
+SELECT BookName,BookPrice FROM BookInfo WHERE BookPrice>30 ;
+SELECT BookName AS 图书名称,BookPrice AS 价格 FROM BookInfo WHERE BookPrice>30 ORDER BY 价格 DESC ;
+SELECT BookName AS 图书名称,BookPrice AS 价格 FROM BookInfo WHERE BookPrice>30 AND BookPrice<50 ;
+SELECT BookName AS 图书名称,BookPrice AS 价格 FROM BookInfo WHERE BookPrice>30 AND BookPrice<50 ORDER BY 价格 DESC ;
+SELECT BookName,BookPrice FROM BookInfo WHERE BookName LIKE  "%数据库%" ORDER BY PublishDate DESC;
+SELECT BookName,BookPrice FROM BookInfo WHERE BookName LIKE  "%数据库%" ORDER BY BookPrice LIMIT 5;
+SELECT ReaderName,ReaderGender,ReaderCompany FROM ReaderInfo WHERE ReaderPhone IS NULL;
+SELECT ReaderName,ReaderGender,ReaderCompany FROM ReaderInfo WHERE ReaderCompany!="浙江大学城市学院";
+SELECT * FROM ReaderInfo ORDER BY CONVERT(ReaderGender USING gbk),CONVERT(ReaderName USING gbk);
+SELECT DISTINCT ReaderCompany FROM ReaderInfo;
+SELECT* FROM ReaderInfo WHERE DATE_ADD(CURRENT_DATE(),INTERVAL 1 MONTH)>ReaderEndDay;
