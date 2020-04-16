@@ -2,9 +2,8 @@ from tkinter import *
 import pymysql
 FManagerIDPword = "SELECT ManagerID,ManagerPWD FROM SysManager"
 db = pymysql.connect("49.234.137.149","root","980807PCH","XXXXSystem")
-global inp1
-global inp2
 def UserLogin():
+    global UserLoginOK
     cursor = db.cursor()
     cursor.execute(FManagerIDPword)
     try:
@@ -18,15 +17,25 @@ def UserLogin():
     InputID = str(inp1.get())
     InputPWD = str(inp2.get())
     if ManagerID==InputID and ManagerPWD==InputPWD:
-        db.close()
+        UserLoginOK=Tk()
+        UserLoginOK.title('%s Login success'%(ManagerID))
+        UserLoginOK.geometry('640x480')
+        btn2.place(x=250, y=200, relwidth=0.2, relheight=0.1)
+        btn2 = Button(UserLoginOK, text='OK', command=UserLoginEndProcess)
+        #db.close()
         print("登陆成功")
-        return 2;
+        return 2
     else:
         print("用户名或密码错误")
         inp1.delete(0, END)  # 清空输入
         inp2.delete(0, END)  # 清空输入
     #db.close()
+def UserLoginEndProcess():
+    UserLoginUI.destroy
+    UserLoginOK.destroy
+    print("窗口关闭")
 def UserLoginMain():
+    global inp1,inp2,UserLoginUI
     UserLoginUI= Tk()
     UserLoginUI.title('xxxxx的登录界面')
     UserLoginUI.geometry('1024x768') # 这里的乘号不是 * ，而是小写英文字母 x
