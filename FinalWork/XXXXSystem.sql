@@ -9,3 +9,9 @@ CREATE TABLE SysManager
 );
 
 INSERT INTO SysManager VALUES("admin","admin");
+
+CREATE TABLE SysUser
+(
+	SysUserID VARCHAR(20) PRIMARY KEY,
+	SysUserPWD VARCHAR(10) NOT NULL
+);
