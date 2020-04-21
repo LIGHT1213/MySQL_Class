@@ -1,9 +1,8 @@
 from tkinter import *
 import pymysql
-FManagerIDPword = "SELECT ManagerID,ManagerPWD FROM SysManager"
-db = pymysql.connect("192.168.1.243","root","jBQDrHp8qgdmy","XXXXSystem")
+FManagerIDPword = "SELECT ManagerID,ManagerPWD FROM SysManager;"
 def UserLogin():
-    global UserLoginOK,cursor
+    global UserLoginOK
     cursor = db.cursor()
     cursor.execute(FManagerIDPword)
     try:
@@ -57,10 +56,17 @@ def ProcessSignUP():
     SignUpID = str(inp7.get())
     SignUpPWD = str(inp8.get())
     ComfirmSignUpPWD = str(inp9.get())
-    up=db.cursor()
     if SignUpPWD==ComfirmSignUpPWD and SignUpPWD!='' and SignUpID!='':
-        up.execute("INSERT INTO SysUser (SysUserID,SysUserPWD) VALUES('%s','%s');"%(SignUpID,SignUpPWD))
-        print("insert ok!")
+        sql = """INSERT INTO SysUser (SysUserID,SysUserPWD) VALUES('%s','%s'):"%(SignUpID,SignUpPWD)"""
+        try:
+            cursor.execute(sql)
+            db.commit()
+            print("insert ok!")
+        except:
+            db.rollback()
+            print("insert false!")
+
+        db.close()
     else:
         lb1 = Label(UserReg, text='Entered passwords differ!Or it is none',font=("黑体",15))
         lb1.place(x=100,y=0, relwidth=0.8, relheight=0.1)
@@ -69,7 +75,8 @@ def UserLoginEndProcess():
     UserLoginOK.destroy()
     print("窗口关闭")
 def UserLoginMain():
-    global inp1,inp2,UserLoginUI
+    global inp1,inp2,UserLoginUI,cursor,db
+    db = pymysql.connect("192.168.1.243","root","jBQDrHp8qgdmy","XXXXSystem")
     UserLoginUI= Tk()
     UserLoginUI.title('xxxxx的登录界面')
     UserLoginUI.geometry('1024x768') # 这里的乘号不是 * ，而是小写英文字母 x
