@@ -8,7 +8,7 @@ CREATE TABLE SysManager
 	ManagerPWD VARCHAR(10) NOT NULL
 );
 
-INSERT INTO SysManager VALUES("admin","admin");
+INSERT INTO SysManager VALUES('admin','admin');
 
 CREATE TABLE SysUser
 (

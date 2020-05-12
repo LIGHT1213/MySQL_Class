@@ -1,6 +1,7 @@
 from tkinter import *
 import pymysql
 FManagerIDPword = "SELECT ManagerID,ManagerPWD FROM SysManager;"
+FSysUserIDPword = "SELECT SysUserID,SysUserPWD FROM SysUser;"
 def UserLogin():
     global UserLoginOK
     cursor = db.cursor()
@@ -13,11 +14,31 @@ def UserLogin():
         print("ManagerID=%s,ManagerPWD=%s"%(ManagerID,ManagerPWD))
     except:
         print ("网络中断或者服务器ip改变，请杀一个程序员祭天")
+    cursor.execute(FSysUserIDPword)
+    try:
+        results = cursor.fetchall()
+        for row in results:
+            UserID = row[0]
+            UserPWD =row[1]
+        print("UserID=%s,UserPWD=%s"%(UserID,UserPWD))
+    except:
+        print ("网络中断或者服务器ip改变，请杀一个程序员祭天")
     InputID = str(inp1.get())
     InputPWD = str(inp2.get())
-    if ManagerID==InputID and ManagerPWD==InputPWD:
+    if (ManagerID==InputID and ManagerPWD==InputPWD):
         UserLoginOK=Tk()
         UserLoginOK.title('%s Login success'%(ManagerID))
+        UserLoginOK.geometry('320x120')
+        lb3 = Label(UserLoginOK, text='登陆成功',font=("黑体",10))
+        lb3.place(x=125, y=10, relwidth=0.2, relheight=0.1)
+        btn3 = Button(UserLoginOK, text='OK', command=UserLoginEndProcess)
+        btn3.place(x=125, y=50, relwidth=0.2, relheight=0.15)
+        
+        #db.close()
+        print("登陆成功")
+    elif UserID==InputID and UserPWD==InputPWD:
+        UserLoginOK=Tk()
+        UserLoginOK.title('%s Login success'%(UserID))
         UserLoginOK.geometry('320x120')
         lb3 = Label(UserLoginOK, text='登陆成功',font=("黑体",10))
         lb3.place(x=125, y=10, relwidth=0.2, relheight=0.1)
@@ -53,20 +74,25 @@ def UserSignUp():
     btn4 = Button(UserReg, text='Ok', command=ProcessSignUP)
     btn4.place(x=250, y=400, relwidth=0.2, relheight=0.1)
 def ProcessSignUP():
+    mycursor=db.cursor()
     SignUpID = str(inp7.get())
     SignUpPWD = str(inp8.get())
     ComfirmSignUpPWD = str(inp9.get())
     if SignUpPWD==ComfirmSignUpPWD and SignUpPWD!='' and SignUpID!='':
-        sql = """INSERT INTO SysUser (SysUserID,SysUserPWD) VALUES('%s','%s'):"%(SignUpID,SignUpPWD)"""
+        #sql = """INSERT INTO SysUser VALUES('%s','%s');:"%(SignUpID,SignUpPWD)"""
+        sql = "INSERT INTO SysUser (SysUserID, SysUserPWD) VALUES (%s, %s)"
+        val = (SignUpID,SignUpPWD)
+        #cursor.execute(sql, val)
         try:
-            cursor.execute(sql)
+            mycursor.execute(sql,val)
             db.commit()
             print("insert ok!")
+
         except:
-            db.rollback()
+            print(db.rollback())
             print("insert false!")
 
-        db.close()
+        #db.close()
     else:
         lb1 = Label(UserReg, text='Entered passwords differ!Or it is none',font=("黑体",15))
         lb1.place(x=100,y=0, relwidth=0.8, relheight=0.1)
@@ -75,8 +101,8 @@ def UserLoginEndProcess():
     UserLoginOK.destroy()
     print("窗口关闭")
 def UserLoginMain():
-    global inp1,inp2,UserLoginUI,cursor,db
-    db = pymysql.connect("192.168.1.243","root","jBQDrHp8qgdmy","XXXXSystem")
+    global inp1,inp2,UserLoginUI,db
+    db = pymysql.connect("127.0.0.1","root","12345","XXXXSystem")
     UserLoginUI= Tk()
     UserLoginUI.title('xxxxx的登录界面')
     UserLoginUI.geometry('1024x768') # 这里的乘号不是 * ，而是小写英文字母 x
