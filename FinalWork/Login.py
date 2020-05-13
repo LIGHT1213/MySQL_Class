@@ -32,7 +32,7 @@ def UserLogin():
         lb3 = Label(UserLoginOK, text='登陆成功',font=("黑体",10))
         lb3.place(x=125, y=10, relwidth=0.2, relheight=0.1)
         btn3 = Button(UserLoginOK, text='OK', command=UserLoginEndProcess)
-        btn3.place(x=125, y=50, relwidth=0.2, relheight=0.15)
+        btn3.place(x=95, y=50, relwidth=0.4, relheight=0.3)
         
         #db.close()
         print("登陆成功")
@@ -43,7 +43,7 @@ def UserLogin():
         lb3 = Label(UserLoginOK, text='登陆成功',font=("黑体",10))
         lb3.place(x=125, y=10, relwidth=0.2, relheight=0.1)
         btn3 = Button(UserLoginOK, text='OK', command=UserLoginEndProcess)
-        btn3.place(x=125, y=50, relwidth=0.2, relheight=0.15)
+        btn3.place(x=95, y=50, relwidth=0.4, relheight=0.3)
         
         #db.close()
         print("登陆成功")
