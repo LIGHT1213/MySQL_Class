@@ -111,7 +111,7 @@ def UserLoginMain():
     global inp1,inp2,UserLoginUI,db
     db = pymysql.connect("127.0.0.1","root","12345","XXXXSystem")
     UserLoginUI= Tk()
-    UserLoginUI.title('xxxxx的登录界面')
+    UserLoginUI.title('xxxxx的登录界面（31702513 潘陈昊 2020年）')
     UserLoginUI.geometry('1024x768') # 这里的乘号不是 * ，而是小写英文字母 x
     lb1 = Label(UserLoginUI, text='UserName',font=("黑体",30))
     lb1.place(x=-300,y=200, relwidth=0.8, relheight=0.1)
